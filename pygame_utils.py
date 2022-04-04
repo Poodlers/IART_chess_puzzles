@@ -27,7 +27,10 @@ class PuzzleDrawer:
         queen_sprite = pygame.image.load(
             "piece_sprites/queen_sprite.png").convert_alpha()
 
-        self.sprites = {"Q": queen_sprite}
+        knight_sprite = pygame.image.load(
+            "piece_sprites/knight_sprite.png").convert_alpha()
+
+        self.sprites = {"Q": queen_sprite, "C": knight_sprite}
 
     def draw(self, board):
         self.draw_board(board)

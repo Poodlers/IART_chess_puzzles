@@ -22,9 +22,9 @@ class Board:
 
     def executePieceMovements(self):
         for piece in self.chess_pieces:
-            attackedPositions = piece.implementStrategy(self.size)
+            attackedPositions = piece.implementStrategy(self.size, self.matrix)
             for position in attackedPositions:
-                print(position)
+
                 x = position.getX()
                 y = position.getY()
                 self.matrix[x][y].addAttackingPiece(piece)
@@ -36,10 +36,9 @@ class Board:
             initial_pos, initial_pos.get_manhattan_distance_between(final_pos), 0, None)
         final_node = AStarNode(
             final_pos, 0, 0, None)
-        print("hello")
+
         a_star_solver = AStarSolver(initial_node, final_node, self.size)
         solution_nodes = a_star_solver.solve()
-        print(solution_nodes)
 
         return solution_nodes
 
