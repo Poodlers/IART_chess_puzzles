@@ -22,5 +22,7 @@ def main():
     puzzle_drawer = PuzzleDrawer(WINDOW_WIDTH, WINDOW_HEIGHT)
     puzzle_drawer.draw(board)
 
+    # board.solve()
+
 
 main()

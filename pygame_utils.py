@@ -1,9 +1,11 @@
 
 import pygame
+from a_star import AStarNode
 
 WHITE_COLOR = (255, 255, 255)
 BLACK_COLOR = (0, 0, 0)
 GRAY_COLOR = (192, 192, 192)
+GREEN_COLOR = (0, 200, 0)
 
 
 def setup_pygame_window(window_width, window_height):
@@ -18,6 +20,7 @@ class PuzzleDrawer:
         self.window = setup_pygame_window(window_width, window_height)
         self.window_width = window_width
         self.window_height = window_height
+        self.show_attacked_squares = True
         self.load_sprites()
 
     def load_sprites(self):
@@ -33,6 +36,25 @@ class PuzzleDrawer:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     run = False
+                if event.type==pygame.KEYDOWN:
+                    if event.key == pygame.KEYUP:
+                        self.show_attacked_squares = not self.show_attacked_squares
+                        self.draw_board(board)
+                    if event.key == pygame.K_RETURN:
+                        solution_squares = board.solve()
+                        self.draw_solution(board, solution_squares)
+
+    def draw_solution(self, board, solution_squares):
+        rect_width = int(self.window_width / board.size)
+        rect_height = int(self.window_height / board.size)
+        for node in solution_squares:
+            node_pos = node.position
+            upper_width = node_pos.x * rect_width
+            upper_height = node_pos.y * rect_height
+            pygame.draw.rect(self.window, GREEN_COLOR,
+                             (upper_width, upper_height, rect_width, rect_height))
+
+        pygame.display.update()
 
     def draw_board(self, board):
         self.window.fill(WHITE_COLOR)
@@ -50,7 +72,7 @@ class PuzzleDrawer:
                         self.sprites[textRep], (rect_width, rect_height))
                     self.window.blit(
                         scaled_sprite, (upper_width, upper_height, rect_width, rect_height))
-                else:
+                elif self.show_attacked_squares:
                     attackingPieces = matrix[y][x].attackedBy
                     if len(attackingPieces) > 0:
                         pygame.draw.rect(self.window, GRAY_COLOR,
@@ -58,5 +80,16 @@ class PuzzleDrawer:
 
                 pygame.draw.rect(self.window, BLACK_COLOR,
                                  (upper_width, upper_height, rect_width, rect_height), rect_border_width)
+
+        # draw initial and final_squares
+
+        initial_y = board.size - 1
+        initial_x = 0
+        upper_width = initial_x * rect_width
+        upper_height = initial_y * rect_height
+        pygame.draw.rect(self.window, BLACK_COLOR,
+                         (upper_width, upper_height, rect_width, rect_height))
+        pygame.draw.rect(self.window, BLACK_COLOR,
+                         (upper_height, upper_width, rect_width, rect_height))
 
         pygame.display.update()
