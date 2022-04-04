@@ -20,3 +20,8 @@ class BoardElement:
 class EmptySquare(BoardElement):
     def __init__(self, representation=" ") -> None:
         super().__init__(representation)
+
+
+class SolutionSquare(BoardElement):
+    def __init__(self, representation="O") -> None:
+        super().__init__(representation)
