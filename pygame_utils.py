@@ -44,14 +44,14 @@ class PuzzleDrawer:
             upper_width = x * rect_width
             for y in range(board.size):
                 upper_height = y * rect_height
-                textRep = matrix[x][y].textRepresentation
+                textRep = matrix[y][x].textRepresentation
                 if textRep != " ":
                     scaled_sprite = pygame.transform.scale(
                         self.sprites[textRep], (rect_width, rect_height))
                     self.window.blit(
                         scaled_sprite, (upper_width, upper_height, rect_width, rect_height))
                 else:
-                    attackingPieces = matrix[x][y].attackedBy
+                    attackingPieces = matrix[y][x].attackedBy
                     if len(attackingPieces) > 0:
                         pygame.draw.rect(self.window, GRAY_COLOR,
                                          (upper_width, upper_height, rect_width, rect_height))

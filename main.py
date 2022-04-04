@@ -10,9 +10,12 @@ WINDOW_HEIGHT = 500
 
 def main():
     board = Board(BOARD_SIZE)
-    queen_piece = ChessPiece(
-        Position(2, 2), QueenStrategy(), "Q")
-    board.add_piece(queen_piece)
+    queen_piece_1 = ChessPiece(
+        Position(0, 0), QueenStrategy(), "Q")
+    queen_piece_2 = ChessPiece(
+        Position(0, 1), QueenStrategy(), "Q")
+    board.add_piece(queen_piece_1)
+    board.add_piece(queen_piece_2)
     board.print()
     board.executePieceMovements()
 
