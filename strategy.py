@@ -36,7 +36,7 @@ class QueenStrategy(Strategy):
         curr_row = x
         curr_col = y
 
-        while curr_row > 0 and curr_col < board_size:
+        while curr_row > 0 and curr_col < board_size - 1:
             curr_row -= 1
             curr_col += 1
         # we have coordinate of the upper right of this diagonal

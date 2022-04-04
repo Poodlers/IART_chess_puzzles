@@ -36,8 +36,8 @@ class PuzzleDrawer:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     run = False
-                if event.type==pygame.KEYDOWN:
-                    if event.key == pygame.KEYUP:
+                if event.type == pygame.KEYDOWN:
+                    if event.key == pygame.K_0:
                         self.show_attacked_squares = not self.show_attacked_squares
                         self.draw_board(board)
                     if event.key == pygame.K_RETURN:
@@ -45,6 +45,7 @@ class PuzzleDrawer:
                         self.draw_solution(board, solution_squares)
 
     def draw_solution(self, board, solution_squares):
+        rect_border_width = 2
         rect_width = int(self.window_width / board.size)
         rect_height = int(self.window_height / board.size)
         for node in solution_squares:
@@ -53,6 +54,8 @@ class PuzzleDrawer:
             upper_height = node_pos.y * rect_height
             pygame.draw.rect(self.window, GREEN_COLOR,
                              (upper_width, upper_height, rect_width, rect_height))
+            pygame.draw.rect(self.window, BLACK_COLOR,
+                             (upper_width, upper_height, rect_width, rect_height), rect_border_width)
 
         pygame.display.update()
 

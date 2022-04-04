@@ -11,7 +11,7 @@ class AStarNode:
         self.f = self.h + self.g
 
     def get_all_antecessor_nodes(self, initial_point, antecessor_nodes):
-        if self.position == initial_point.position:
+        if self.parent_node.position == initial_point.position:
             return
         antecessor_nodes.append(self.parent_node)
         self.parent_node.get_all_antecessor_nodes(

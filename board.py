@@ -21,6 +21,7 @@ class Board:
         for piece in self.chess_pieces:
             attackedPositions = piece.implementStrategy(self.size)
             for position in attackedPositions:
+                print(position)
                 x = position.getX()
                 y = position.getY()
                 self.matrix[x][y].addAttackingPiece(piece)
