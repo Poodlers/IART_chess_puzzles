@@ -12,9 +12,12 @@ class Board:
         self.chess_pieces = []
 
     def add_piece(self, chess_piece: ChessPiece) -> None:
-        self.chess_pieces.append(chess_piece)
         x = chess_piece.position.getX()
         y = chess_piece.position.getY()
+        for piece in self.chess_pieces:
+            if (piece.position.x == x and piece.position.y == y):
+                raise Exception("square already has another chess piece")
+        self.chess_pieces.append(chess_piece)
         self.matrix[x][y] = chess_piece
 
     def executePieceMovements(self):
