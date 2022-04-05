@@ -95,19 +95,15 @@ class AStarSolver:
             node_sucessors = node_to_explore.get_node_sucessors(
                 self.board_size, self.matrix, self.chess_pieces)
 
-            print("Evaluating node: ")
-            print("[ ", end="")
-            for pos in node_to_explore.snake:
-                print(pos)
-            print(" ]")
-            print("H: ", node_to_explore.h)
-            print("Sucessors: ")
             for node in node_sucessors:
-                print("Suc :", end="")
+                """ 
+                print("Evaluating node with snake: ")
                 print("[ ", end="")
                 for pos in node.snake:
                     print(pos)
                 print(" ]")
+                print("H: ", node.h)
+                """
                 if node.snake[-1] == self.final_pos and node.h == 0:
                     return node.snake
                 if check_better_node_in_list(node, open_list):

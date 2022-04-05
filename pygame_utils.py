@@ -61,8 +61,8 @@ class PuzzleDrawer:
         rect_width = int(self.window_width / board.size)
         rect_height = int(self.window_height / board.size)
         for node_pos in solution_squares:
-            upper_width = node_pos.x * rect_width
-            upper_height = node_pos.y * rect_height
+            upper_width = node_pos.y * rect_width
+            upper_height = node_pos.x * rect_height
             pygame.draw.rect(self.window, GREEN_COLOR,
                              (upper_width, upper_height, rect_width, rect_height))
             pygame.draw.rect(self.window, BLACK_COLOR,
