@@ -30,14 +30,13 @@ class Board:
                 self.matrix[x][y].addAttackingPiece(piece)
 
     def solve(self):
-        initial_pos = Position(0, self.size - 1)
-        final_pos = Position(self.size - 1, 0)
+        final_pos = Position(0, self.size - 1)
+        initial_pos = Position(self.size - 1, 0)
         initial_node = AStarNode(
-            initial_pos, initial_pos.get_manhattan_distance_between(final_pos), 0, None)
-        final_node = AStarNode(
-            final_pos, 0, 0, None)
+            [initial_pos], 0, 0)
 
-        a_star_solver = AStarSolver(initial_node, final_node, self.size)
+        a_star_solver = AStarSolver(
+            initial_node, final_pos, self.size, self.matrix, self.chess_pieces)
         solution_nodes = a_star_solver.solve()
 
         return solution_nodes

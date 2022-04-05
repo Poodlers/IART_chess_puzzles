@@ -24,13 +24,22 @@ class PuzzleDrawer:
         self.load_sprites()
 
     def load_sprites(self):
+        king_sprite = pygame.image.load(
+            "piece_sprites/king_sprite.png").convert_alpha()
+
         queen_sprite = pygame.image.load(
             "piece_sprites/queen_sprite.png").convert_alpha()
+
+        rook_sprite = pygame.image.load(
+            "piece_sprites/rook_sprite.png").convert_alpha()
 
         knight_sprite = pygame.image.load(
             "piece_sprites/knight_sprite.png").convert_alpha()
 
-        self.sprites = {"Q": queen_sprite, "C": knight_sprite}
+        self.sprites = {"K": king_sprite,
+                        "Q": queen_sprite,
+                        "R": rook_sprite,
+                        "k": knight_sprite}
 
     def draw(self, board):
         self.draw_board(board)
@@ -51,8 +60,7 @@ class PuzzleDrawer:
         rect_border_width = 2
         rect_width = int(self.window_width / board.size)
         rect_height = int(self.window_height / board.size)
-        for node in solution_squares:
-            node_pos = node.position
+        for node_pos in solution_squares:
             upper_width = node_pos.x * rect_width
             upper_height = node_pos.y * rect_height
             pygame.draw.rect(self.window, GREEN_COLOR,

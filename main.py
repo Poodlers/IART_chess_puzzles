@@ -1,24 +1,24 @@
 from board import Board
 from chess_piece import ChessPiece
 from position import Position
-from strategy import KnightStrategy, QueenStrategy
+from strategy import KnightStrategy, QueenStrategy, KingStrategy, RookStrategy
 from pygame_utils import PuzzleDrawer
-BOARD_SIZE = 8
+BOARD_SIZE = 5
 WINDOW_WIDTH = 500
 WINDOW_HEIGHT = 500
 
 
 def main():
     board = Board(BOARD_SIZE)
-    queen_piece_1 = ChessPiece(
-        Position(0, 0), QueenStrategy(), "Q")
-    queen_piece_2 = ChessPiece(
-        Position(2, 3), QueenStrategy(), "Q")
 
-    knight_piece = ChessPiece(Position(1, 2), KnightStrategy(), "C")
-    # board.add_piece(queen_piece_1)
-    board.add_piece(queen_piece_2)
-    board.add_piece(knight_piece)
+    king_piece = ChessPiece(Position(3, 1), KingStrategy(), "K")
+    # queen_piece = ChessPiece(Position(2, 3), QueenStrategy(), "Q")
+    rook_piece = ChessPiece(Position(1, 1), RookStrategy(), "R")
+    #knight_piece = ChessPiece(Position(4, 2), KnightStrategy(), "k")
+
+    # board.add_piece(queen_piece)
+    board.add_piece(rook_piece)
+    board.add_piece(king_piece)
     board.print()
     board.executePieceMovements()
 
