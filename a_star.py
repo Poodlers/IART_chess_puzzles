@@ -8,6 +8,30 @@ def combine(arr, s):
     return list(combinations(arr, s))
 
 
+def calculate_snake_ineq_heuristic(snake, board, chess_pieces):
+    attacking_pieces = {}
+    for i in chess_pieces:
+        attacking_pieces[i.textRepresentation] = 0
+    for pos in snake:
+        for piece in board[pos.x][pos.y].getAttackingPieces():
+            attacking_pieces[piece.textRepresentation] += 1
+    """
+    print("Snake is: ")
+    print("[ ", end="")
+    for pos in snake:
+        print(pos)
+    print(" ]") 
+    print(attacking_pieces)
+    """
+
+    combinations = combine(attacking_pieces.keys(), 2)
+    final_result = 0
+    for combination in combinations:
+        final_result += abs(attacking_pieces[combination[0]] -
+                            attacking_pieces[combination[1]])
+    return final_result
+
+
 class AStarNode:
     def __init__(self, snake, h_value, g_value) -> None:
         self.snake = snake
@@ -15,26 +39,28 @@ class AStarNode:
         self.g = g_value
         self.f = self.h + self.g
 
-    def calculate_snake_ineq_heuristic(self, board, chess_pieces):
-        attacking_pieces = {}
-        for i in chess_pieces:
-            attacking_pieces[i.textRepresentation] = 0
-        for pos in self.snake:
-            for piece in board[pos.x][pos.y].getAttackingPieces():
-                attacking_pieces[piece.textRepresentation] += 1
-
-        combinations = combine(attacking_pieces.keys(), 2)
-        final_result = 0
-        for combination in combinations:
-            final_result += abs(attacking_pieces[combination[0]] -
-                                attacking_pieces[combination[1]])
-        return final_result
-
     def not_adjacent_to_snake(self, new_pos):
-        new_pos_neighbours = [
-            Position(new_pos.x - 1, new_pos.y), Position(new_pos.x + 1, new_pos.y), Position(new_pos.x, new_pos.y - 1), Position(new_pos.x, new_pos.y + 1)]
+        # at the time of putting a square, check that it has no more than one diagonal adjacent already on the snake
+        # if he does have, then its not a valid snake!
+
+        new_pos_adjacents = [
+            Position(new_pos.x - 1, new_pos.y), Position(new_pos.x +
+                                                         1, new_pos.y), Position(new_pos.x, new_pos.y - 1),
+            Position(new_pos.x, new_pos.y + 1)]
+
+        new_pos_diagonals = [
+            Position(new_pos.x - 1, new_pos.y - 1), Position(new_pos.x +
+                                                             1, new_pos.y - 1), Position(new_pos.x + 1, new_pos.y + 1),
+            Position(new_pos.x - 1, new_pos.y + 1)]
         num_of_adjacents = 0
-        for neighbour in new_pos_neighbours:
+        for neighbour in new_pos_diagonals:
+            if neighbour in self.snake:
+                num_of_adjacents += 1
+        if num_of_adjacents > 1:
+            return False
+
+        num_of_adjacents = 0
+        for neighbour in new_pos_adjacents:
             if neighbour in self.snake:
                 num_of_adjacents += 1
         if num_of_adjacents != 1:
@@ -52,8 +78,8 @@ class AStarNode:
             if suc_x >= 0 and suc_x < board_size and suc_y >= 0 and suc_y < board_size and suc_pos not in self.snake and self.not_adjacent_to_snake(suc_pos) and type(board[suc_pos.x][suc_pos.y]) != ChessPiece:
                 new_snake = self.snake + [suc_pos]
                 suc_g = self.g + 1
-                suc_h = self.calculate_snake_ineq_heuristic(
-                    board, chess_pieces)
+                suc_h = calculate_snake_ineq_heuristic(new_snake,
+                                                       board, chess_pieces)
                 sucessor = AStarNode(new_snake, suc_h, suc_g)
                 successors.append(sucessor)
         return successors
@@ -96,14 +122,8 @@ class AStarSolver:
                 self.board_size, self.matrix, self.chess_pieces)
 
             for node in node_sucessors:
-                """ 
-                print("Evaluating node with snake: ")
-                print("[ ", end="")
-                for pos in node.snake:
-                    print(pos)
-                print(" ]")
-                print("H: ", node.h)
-                """
+                #print("H: ", node.h)
+
                 if node.snake[-1] == self.final_pos and node.h == 0:
                     return node.snake
                 if check_better_node_in_list(node, open_list):

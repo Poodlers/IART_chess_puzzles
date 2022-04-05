@@ -140,21 +140,13 @@ class KnightStrategy(Strategy):
         x = position.getX()
         y = position.getY()
 
-        if type(matrix[x+3][y+2]) != ChessPiece and self.check_in_board(x+2, y+1, board_size):
-            attackedPositions.append(Position(x+2, y+1))
-        if type(matrix[x+3][y-2]) != ChessPiece and self.check_in_board(x+2, y-1, board_size):
-            attackedPositions.append(Position(x+2, y-1))
-        if type(matrix[x-3][y+2]) != ChessPiece and self.check_in_board(x-2, y+1, board_size):
-            attackedPositions.append(Position(x-2, y+1))
-        if type(matrix[x-3][y-2]) != ChessPiece and self.check_in_board(x-2, y-1, board_size):
-            attackedPositions.append(Position(x-2, y-1))
-        if type(matrix[x+2][y+3]) != ChessPiece and self.check_in_board(x+1, y+2, board_size):
-            attackedPositions.append(Position(x+1, y+2))
-        if type(matrix[x+2][y-3]) != ChessPiece and self.check_in_board(x+1, y-2, board_size):
-            attackedPositions.append(Position(x+1, y-2))
-        if type(matrix[x-2][y+3]) != ChessPiece and self.check_in_board(x-1, y+2, board_size):
-            attackedPositions.append(Position(x-1, y+2))
-        if type(matrix[x-2][y-3]) != ChessPiece and self.check_in_board(x-1, y-2, board_size):
-            attackedPositions.append(Position(x-1, y-2))
+        horse_moves = [(2, 1), (2, -1), (-2, 1), (-2, -1)]
 
+        for move in horse_moves:
+            move_x = x + move[0]
+            move_y = y + move[1]
+            if self.check_in_board(move_x, move_y, board_size) and type(matrix[move_x][move_y]) != ChessPiece:
+                attackedPositions.append(Position(move_x, move_y))
+            if self.check_in_board(move_y, move_x, board_size) and type(matrix[move_y][move_x]) != ChessPiece:
+                attackedPositions.append(Position(move_y, move_x))
         return attackedPositions
