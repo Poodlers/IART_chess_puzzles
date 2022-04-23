@@ -3,6 +3,7 @@ from chess_piece import ChessPiece
 from position import Position
 from itertools import combinations
 from node import Node
+from solver import Solver
 
 
 def combine(arr, s):
@@ -58,13 +59,9 @@ class AStarNode(Node):
         return successors
 
 
-class AStarSolver:
+class AStarSolver(Solver):
     def __init__(self, initial_node, final_pos, board_size, board, chess_pieces) -> None:
-        self.initial_node = initial_node
-        self.final_pos = final_pos
-        self.board_size = board_size
-        self.matrix = board
-        self.chess_pieces = chess_pieces
+        super().__init__(initial_node, final_pos, board_size, board, chess_pieces)
 
     def get_next_node(self, open_list):
         least_f_node = None
