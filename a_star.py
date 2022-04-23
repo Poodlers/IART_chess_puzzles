@@ -15,15 +15,15 @@ def calculate_snake_ineq_heuristic(snake, board, chess_pieces):
     for pos in snake:
         for piece in board[pos.x][pos.y].getAttackingPieces():
             attacking_pieces[piece.textRepresentation] += 1
-    """
+
+    """ 
     print("Snake is: ")
     print("[ ", end="")
     for pos in snake:
         print(pos)
-    print(" ]") 
+    print(" ]")
     print(attacking_pieces)
     """
-
     combinations = combine(attacking_pieces.keys(), 2)
     final_result = 0
     for combination in combinations:
@@ -70,7 +70,7 @@ class AStarNode:
     def get_node_sucessors(self, board_size, board, chess_pieces):
         successors = []
 
-        sucessor_generation = [(0, 1), (1, 0), (0, -1), (-1, 0)]
+        sucessor_generation = [(-1, 0), (0, 1), (1, 0), (0, -1)]
         for suc in sucessor_generation:
             suc_x = self.snake[-1].x + suc[0]
             suc_y = self.snake[-1].y + suc[1]
@@ -105,9 +105,10 @@ class AStarSolver:
 
         return least_f_node
 
-    def solve(self):
+    def solve(self, puzzle_drawer):
         open_list = [self.initial_node]
         closed_list = []
+        nodes_num = 0
 
         def check_better_node_in_list(node, node_list):
             for open_node in node_list:
@@ -120,15 +121,21 @@ class AStarSolver:
             open_list.remove(node_to_explore)
             node_sucessors = node_to_explore.get_node_sucessors(
                 self.board_size, self.matrix, self.chess_pieces)
+            nodes_num += 1
+            # draw here open nodes and closed ones
 
+            puzzle_drawer.draw_intermediate(
+                open_list, closed_list, self.board_size)
             for node in node_sucessors:
-                #print("H: ", node.h)
-
+                #print("node H, at : ", node.h, node.snake[-1])
                 if node.snake[-1] == self.final_pos and node.h == 0:
+                    print("num_of_visited nodes: ", nodes_num)
                     return node.snake
                 if check_better_node_in_list(node, open_list):
+
                     continue
                 if check_better_node_in_list(node, closed_list):
+
                     continue
                 open_list.append(node)
 

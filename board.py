@@ -28,7 +28,7 @@ class Board:
                 y = position.getY()
                 self.matrix[x][y].addAttackingPiece(piece)
 
-    def solve(self):
+    def solve(self, puzzle_drawer):
         final_pos = Position(0, self.size - 1)
         initial_pos = Position(self.size - 1, 0)
         initial_node = AStarNode(
@@ -36,7 +36,7 @@ class Board:
 
         a_star_solver = AStarSolver(
             initial_node, final_pos, self.size, self.matrix, self.chess_pieces)
-        solution_nodes = a_star_solver.solve()
+        solution_nodes = a_star_solver.solve(puzzle_drawer)
 
         return solution_nodes
 
@@ -44,7 +44,7 @@ class Board:
         for i in self.matrix:
             print("[", end=" ")
             for j in i:
-                print(j, end="   ")
+                print(j, end=" ")
             print("]")
 
     def print_all_attacked_squares(self):
