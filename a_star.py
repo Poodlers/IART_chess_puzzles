@@ -2,6 +2,8 @@ from time import sleep
 from chess_piece import ChessPiece
 from position import Position
 from itertools import combinations
+from node import Node
+from solver import Solver
 
 
 def combine(arr, s):
@@ -32,40 +34,12 @@ def calculate_snake_ineq_heuristic(snake, board, chess_pieces):
     return final_result
 
 
-class AStarNode:
+class AStarNode(Node):
     def __init__(self, snake, h_value, g_value) -> None:
-        self.snake = snake
+        super().__init__(snake)
         self.h = h_value
         self.g = g_value
         self.f = self.h + self.g
-
-    def not_adjacent_to_snake(self, new_pos):
-        # at the time of putting a square, check that it has no more than one diagonal adjacent already on the snake
-        # if he does have, then its not a valid snake!
-
-        new_pos_adjacents = [
-            Position(new_pos.x - 1, new_pos.y), Position(new_pos.x +
-                                                         1, new_pos.y), Position(new_pos.x, new_pos.y - 1),
-            Position(new_pos.x, new_pos.y + 1)]
-
-        new_pos_diagonals = [
-            Position(new_pos.x - 1, new_pos.y - 1), Position(new_pos.x +
-                                                             1, new_pos.y - 1), Position(new_pos.x + 1, new_pos.y + 1),
-            Position(new_pos.x - 1, new_pos.y + 1)]
-        num_of_adjacents = 0
-        for neighbour in new_pos_diagonals:
-            if neighbour in self.snake:
-                num_of_adjacents += 1
-        if num_of_adjacents > 1:
-            return False
-
-        num_of_adjacents = 0
-        for neighbour in new_pos_adjacents:
-            if neighbour in self.snake:
-                num_of_adjacents += 1
-        if num_of_adjacents != 1:
-            return False
-        return True
 
     def get_node_sucessors(self, board_size, board, chess_pieces):
         successors = []
@@ -85,13 +59,9 @@ class AStarNode:
         return successors
 
 
-class AStarSolver:
+class AStarSolver(Solver):
     def __init__(self, initial_node, final_pos, board_size, board, chess_pieces) -> None:
-        self.initial_node = initial_node
-        self.final_pos = final_pos
-        self.board_size = board_size
-        self.matrix = board
-        self.chess_pieces = chess_pieces
+        super().__init__(initial_node, final_pos, board_size, board, chess_pieces)
 
     def get_next_node(self, open_list):
         least_f_node = None
