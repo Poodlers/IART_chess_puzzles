@@ -63,7 +63,7 @@ class AStarSolver(Solver):
     def __init__(self, initial_node, final_pos, board_size, board, chess_pieces) -> None:
         super().__init__(initial_node, final_pos, board_size, board, chess_pieces)
 
-    def get_next_node(self, open_list):
+    def get_next_node(self, open_list) -> AStarNode:
         least_f_node = None
         least_f_value = 9999
         longest_snake_size = -1
