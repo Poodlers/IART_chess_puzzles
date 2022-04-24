@@ -26,3 +26,28 @@ class BFSNode(Node):
 class BFSSolver(Solver):
     def __init__(self, initial_node, final_pos, board_size, board, chess_pieces) -> None:
         super().__init__(initial_node, final_pos, board_size, board, chess_pieces)
+
+    def solve(self, puzzle_drawer):
+        queue = [self.initial_node]
+        visited = []
+        visited_nodes_num = 0
+
+        while len(queue) > 0:
+            node = queue.pop(0)
+            node_successors = node.get_node_sucessors(self.board_size, self.matrix, self.chess_pieces)
+            visited_nodes_num += 1
+
+
+            puzzle_drawer.draw_intermediate(
+                queue, visited, self.board_size)
+
+            for node in node_successors:
+                if node.snake[-1] == self.final_pos and node.h == 0:
+                    print("num_of_visited nodes: ", visited_nodes_num)
+                    return node.snake
+                queue.append(node)
+
+            visited.append(node)
+
+
+

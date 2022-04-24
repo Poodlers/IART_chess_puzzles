@@ -10,3 +10,6 @@ class Solver:
         self.board_size = board_size
         self.matrix = board
         self.chess_pieces = chess_pieces
+    
+    def solve(self, puzzle_drawer):
+        pass
