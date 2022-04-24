@@ -121,10 +121,28 @@ class Drawer:
 
     def draw_initial_menu(self):
         self.window.fill(GRAY_COLOR)
-        font = pygame.font.Font('freesansbold.ttf', 32)
-        text = font.render('GeeksForGeeks', True, WHITE_COLOR)
+        font_game_title = pygame.font.Font('freesansbold.ttf', 50)
+        font_options = pygame.font.Font('freesansbold.ttf', 25)
+        text = font_game_title.render('Chess Puzzles!', True, WHITE_COLOR)
         textRect = text.get_rect()
 
-        textRect.center = (self.window_width // 2, self.window_height // 2)
+        textRect.center = (self.window_width // 2,
+                           (self.window_height - 20) // 2)
         self.window.blit(text, textRect)
+
+        text_easy_puzzle = font_options.render(
+            '1 - Easy Puzzle', True, WHITE_COLOR)
+        textRect = text_easy_puzzle.get_rect()
+
+        textRect.center = (self.window_width // 2,
+                           (self.window_height + 50) // 2)
+        self.window.blit(text_easy_puzzle, textRect)
+
+        text_hard_puzzle = font_options.render(
+            '2 - Hard Puzzle', True, WHITE_COLOR)
+        textRect = text_easy_puzzle.get_rect()
+
+        textRect.center = (self.window_width // 2,
+                           (self.window_height + 100) // 2)
+        self.window.blit(text_hard_puzzle, textRect)
         pygame.display.update()

@@ -47,11 +47,16 @@ class Puzzle_State(Game_State):
                 return -1
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_0:
+                    new_state = Initial_State(
+                        self.game)
+                    new_state.draw()
+                    self.game.change_state(new_state)
+                if event.key == pygame.K_1:
                     self.drawer.toggle_attacked_squares()
                     self.drawer.draw_board(self.board)
-                if event.key == pygame.K_1:
+                if event.key == pygame.K_2:
                     solution_squares = self.board.solve()
-                    self.draw_solution(board, solution_squares)
+                    self.drawer.draw_solution(self.board, solution_squares)
 
 
 class Initial_State(Game_State):
@@ -59,7 +64,7 @@ class Initial_State(Game_State):
         super().__init__(game)
 
     def draw(self):
-        return self.game.drawer.draw_initial_menu()
+        return self.drawer.draw_initial_menu()
 
     def execute(self):
         for event in pygame.event.get():

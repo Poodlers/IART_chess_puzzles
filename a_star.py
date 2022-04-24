@@ -75,7 +75,7 @@ class AStarSolver(Solver):
 
         return least_f_node
 
-    def solve(self, puzzle_drawer):
+    def solve(self):
         open_list = [self.initial_node]
         closed_list = []
         nodes_num = 0
@@ -94,8 +94,7 @@ class AStarSolver(Solver):
             nodes_num += 1
             # draw here open nodes and closed ones
 
-            puzzle_drawer.draw_intermediate(
-                open_list, closed_list, self.board_size)
+            #puzzle_drawer.draw_intermediate( open_list, closed_list, self.board_size)
             for node in node_sucessors:
                 #print("node H, at : ", node.h, node.snake[-1])
                 if node.snake[-1] == self.final_pos and node.h == 0:
