@@ -23,7 +23,7 @@ class DFSSolver(Solver):
 
                 if neighbour.snake[-1] == self.final_pos and neighbour.calculate_snake_heuristic(self.matrix, self.chess_pieces) == 0:
                     print("num_of_visited nodes: ", len(visited))
-                    return node.snake
+                    return neighbour.snake
 
                 result = self.DFSUtil(neighbour, visited, visited_nodes_num)
                 if result != None:

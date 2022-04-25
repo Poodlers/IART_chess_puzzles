@@ -120,7 +120,7 @@ class Puzzle_State(Game_State):
 
         self.board.executePieceMovements()
         a_star_solver = AStarSolver(
-            self.initial_point, self.final_point, self.board.size, self.board.matrix, self.board.chess_pieces)
+            self.initial_point, self.final_point, self.board.size, self.board.matrix, self.board.chess_pieces, "inequalities")
 
         solution_nodes = a_star_solver.solve()
 
@@ -164,7 +164,7 @@ class Puzzle_State(Game_State):
                     new_state.draw()
                     self.game.change_state(new_state)
                 if event.key == pygame.K_1:
-
+                    print("Pressed 1")
                     bfs_solver = BFSSolver(
                         self.initial_point, self.final_point, self.board.size, self.board.matrix, self.board.chess_pieces)
                     start = time.time()
@@ -175,7 +175,9 @@ class Puzzle_State(Game_State):
                     else:
                         self.drawer.draw_solution(self.board, solution_nodes)
                         print("BFS Time: ", end-start, "seconds")
+                        time.sleep(1)
                 if event.key == pygame.K_2:
+                    print("Pressed 2")
                     dfs_solver = DFSSolver(
                         self.initial_point, self.final_point, self.board.size, self.board.matrix, self.board.chess_pieces)
                     start = time.time()
@@ -186,7 +188,9 @@ class Puzzle_State(Game_State):
                     else:
                         self.drawer.draw_solution(self.board, solution_nodes)
                         print("DFS Time: ", end-start, "seconds")
+                        time.sleep(1)
                 if event.key == pygame.K_3:
+                    print("Pressed 3")
                     a_star_solver = AStarSolver(
                         self.initial_point, self.final_point, self.board.size, self.board.matrix, self.board.chess_pieces, "shortest_distance")
                     start = time.time()
@@ -198,7 +202,9 @@ class Puzzle_State(Game_State):
                         self.drawer.draw_solution(self.board, solution_nodes)
                         print("AStar shortest dist Time: ",
                               end-start, "seconds")
+                        time.sleep(1)
                 if event.key == pygame.K_4:
+                    print("Pressed 4")
                     a_star_solver = AStarSolver(
                         self.initial_point, self.final_point, self.board.size, self.board.matrix, self.board.chess_pieces, "inequalities")
                     start = time.time()
@@ -210,3 +216,4 @@ class Puzzle_State(Game_State):
                         self.drawer.draw_solution(self.board, solution_nodes)
                         print("AStar inequalities Time: ",
                               end-start, "seconds")
+                        time.sleep(1)
