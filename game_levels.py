@@ -31,6 +31,8 @@ def generate_board_from_file(filename):
         line = file.readline()
         if not line:
             break
+        if line == "\n":
+            continue
         print("Line: {}".format(line.strip()))
         content = line.split()
         x = int(content[0])
