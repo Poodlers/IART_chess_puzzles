@@ -1,4 +1,5 @@
-from board_element import BoardElement, EmptySquare
+from turtle import pos
+from board_element import BoardElement, ClickedSquare, EmptySquare
 from chess_piece import ChessPiece
 from a_star import AStarSolver, AStarNode
 from position import Position
@@ -10,6 +11,9 @@ class Board:
         self.matrix = [[EmptySquare() for x in range(size)]
                        for x in range(size)]
         self.chess_pieces = []
+        self.clicked_squares = [Position(self.size - 1, 0)]
+        self.matrix[self.size - 1][0] = ClickedSquare()
+        self.final_point = Position(0, self.size - 1)
 
     def add_piece(self, chess_piece: ChessPiece) -> None:
         x = chess_piece.position.getX()
@@ -28,18 +32,6 @@ class Board:
                 y = position.getY()
                 self.matrix[x][y].addAttackingPiece(piece)
 
-    def solve(self):
-        final_pos = Position(0, self.size - 1)
-        initial_pos = Position(self.size - 1, 0)
-        initial_node = AStarNode(
-            [initial_pos], 0, 0)
-
-        a_star_solver = AStarSolver(
-            initial_node, final_pos, self.size, self.matrix, self.chess_pieces)
-        solution_nodes = a_star_solver.solve()
-
-        return solution_nodes
-
     def print(self) -> None:
         for i in self.matrix:
             print("[", end=" ")
@@ -52,3 +44,26 @@ class Board:
             for j in range(self.size):
                 print("(", i, ",", j, ") - >",
                       self.matrix[i][j].getAttackingPieces())
+
+    def valid_click(self, x, y):
+        if type(self.matrix[x][y]) == ChessPiece:
+            return False
+        valid_dirs = [(1, 0), (-1, 0), (0, 1), (0, -1)]
+        for dir in valid_dirs:
+            if self.clicked_squares[-1].x - x == dir[0] and self.clicked_squares[-1].y - y == dir[1]:
+                return True
+        return False
+
+    def process_square_clicked(self, square_clicked):
+        x = square_clicked[0]
+        y = square_clicked[1]
+        if x == self.clicked_squares[-1].x and y == self.clicked_squares[-1].y:
+            if len(self.clicked_squares) > 1:
+                self.matrix[x][y] = EmptySquare()
+                self.clicked_squares.pop()
+
+        elif self.valid_click(x, y):
+            self.matrix[x][y] = ClickedSquare()
+            self.clicked_squares.append(Position(x, y))
+            if x == self.final_point.x and y == self.final_point.y:
+                return self.clicked_squares

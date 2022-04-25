@@ -11,7 +11,8 @@ class BoardElement:
         return self.textRepresentation
 
     def addAttackingPiece(self, chess_piece) -> None:
-        self.attackedBy.append(chess_piece)
+        if chess_piece not in self.attackedBy:
+            self.attackedBy.append(chess_piece)
 
     def getAttackingPieces(self):
         return self.attackedBy
@@ -24,4 +25,9 @@ class EmptySquare(BoardElement):
 
 class SolutionSquare(BoardElement):
     def __init__(self, representation="O") -> None:
+        super().__init__(representation)
+
+
+class ClickedSquare(BoardElement):
+    def __init__(self, representation="1") -> None:
         super().__init__(representation)
