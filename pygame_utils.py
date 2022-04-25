@@ -54,10 +54,13 @@ class Drawer:
         knight_sprite = pygame.image.load(
             "piece_sprites/knight_sprite.png").convert_alpha()
 
+        bishop_sprite = pygame.image.load(
+            "piece_sprites/bishop_sprite.png").convert_alpha()
         self.sprites = {"K": king_sprite,
                         "Q": queen_sprite,
                         "R": rook_sprite,
-                        "k": knight_sprite}
+                        "k": knight_sprite,
+                        "B": bishop_sprite}
 
     def draw_solution(self, board, solution_squares):
         rect_border_width = 2
@@ -169,7 +172,7 @@ class Drawer:
         pygame.draw.rect(self.window, GRAY_COLOR,
                          (upper_width, upper_height, gui_width, gui_height))
 
-        font_options = pygame.font.Font(self.font_name, 25)
+        font_options = pygame.font.Font(self.font_name, 20)
         text = font_options.render('0 - Back', True, WHITE_COLOR)
         textRect = text.get_rect()
 
@@ -190,15 +193,25 @@ class Drawer:
         textRect = text.get_rect()
 
         textRect.center = (self.window_width // 2 - self.window_width // 4,
-                           (upper_height + 100))
+                           (upper_height + 80))
 
         self.window.blit(text, textRect)
 
-        text = font_options.render('3 - A Star', True, WHITE_COLOR)
+        text = font_options.render(
+            '3 - A Star (shortest)', True, WHITE_COLOR)
         textRect = text.get_rect()
 
         textRect.center = (self.window_width // 2 + self.window_width // 4,
-                           (upper_height + 100))
+                           (upper_height + 80))
+
+        self.window.blit(text, textRect)
+
+        text = font_options.render(
+            '4 - A Star (ineq)', True, WHITE_COLOR)
+        textRect = text.get_rect()
+
+        textRect.center = (self.window_width // 2 - self.window_width // 4,
+                           (upper_height + 110))
 
         self.window.blit(text, textRect)
         pygame.display.update()

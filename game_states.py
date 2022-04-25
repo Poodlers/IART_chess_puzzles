@@ -188,7 +188,7 @@ class Puzzle_State(Game_State):
                         print("DFS Time: ", end-start, "seconds")
                 if event.key == pygame.K_3:
                     a_star_solver = AStarSolver(
-                        self.initial_point, self.final_point, self.board.size, self.board.matrix, self.board.chess_pieces)
+                        self.initial_point, self.final_point, self.board.size, self.board.matrix, self.board.chess_pieces, "shortest_distance")
                     start = time.time()
                     solution_nodes = a_star_solver.solve()
                     end = time.time()
@@ -196,4 +196,17 @@ class Puzzle_State(Game_State):
                         print("THIS PUZZLE HAS NO SOLUTION!")
                     else:
                         self.drawer.draw_solution(self.board, solution_nodes)
-                        print("AStar Time: ", end-start, "seconds")
+                        print("AStar shortest dist Time: ",
+                              end-start, "seconds")
+                if event.key == pygame.K_4:
+                    a_star_solver = AStarSolver(
+                        self.initial_point, self.final_point, self.board.size, self.board.matrix, self.board.chess_pieces, "inequalities")
+                    start = time.time()
+                    solution_nodes = a_star_solver.solve()
+                    end = time.time()
+                    if solution_nodes == None:
+                        print("THIS PUZZLE HAS NO SOLUTION!")
+                    else:
+                        self.drawer.draw_solution(self.board, solution_nodes)
+                        print("AStar inequalities Time: ",
+                              end-start, "seconds")

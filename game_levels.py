@@ -1,4 +1,4 @@
-from strategy import KingStrategy, QueenStrategy, KnightStrategy, RookStrategy
+from strategy import BishopStrategy, KingStrategy, QueenStrategy, KnightStrategy, RookStrategy
 from chess_piece import ChessPiece
 from position import Position
 from board import Board
@@ -17,7 +17,8 @@ custom_file format:
 pieces_dict = {"Queen": (QueenStrategy(), "Q"),
                "Rook": (RookStrategy(), "R"),
                "Knight": (KnightStrategy(), "k"),
-               "King": (KingStrategy(), "K")}
+               "King": (KingStrategy(), "K"),
+               "Bishop": (BishopStrategy(), "B")}
 
 
 def generate_board_from_file(filename):
@@ -54,13 +55,13 @@ def hard_game_board_init():
     BOARD_SIZE = 6
     board = Board(BOARD_SIZE)
 
-    king_piece = ChessPiece(Position(4, 2), KingStrategy(), "K")
-    rook_piece = ChessPiece(Position(3, 0), RookStrategy(), "R")
-    knight_piece = ChessPiece(Position(3, 3), KnightStrategy(), "k")
+    queen_piece = ChessPiece(Position(4, 4), QueenStrategy(), "Q")
+    bishop_piece = ChessPiece(Position(1, 4), BishopStrategy(), "B")
+    knight_piece = ChessPiece(Position(2, 1), KnightStrategy(), "k")
 
-    board.add_piece(rook_piece)
-    board.add_piece(king_piece)
     board.add_piece(knight_piece)
+    board.add_piece(queen_piece)
+    board.add_piece(bishop_piece)
     board.executePieceMovements()
     board.print()
     return board
